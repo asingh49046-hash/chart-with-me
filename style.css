@@ -1,0 +1,118 @@
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Arial, sans-serif;
+}
+
+body{
+  background:#0f172a;
+  color:white;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.chat-container{
+  width:95%;
+  max-width:900px;
+  height:90vh;
+  background:#1e293b;
+  border-radius:15px;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  box-shadow:0 0 20px rgba(0,0,0,0.4);
+}
+
+.header{
+  background:#2563eb;
+  padding:15px;
+  text-align:center;
+  font-size:22px;
+  font-weight:bold;
+}
+
+.messages{
+  flex:1;
+  padding:15px;
+  overflow-y:auto;
+  scroll-behavior:smooth;
+}
+
+.message{
+  background:#334155;
+  padding:12px;
+  border-radius:10px;
+  margin-bottom:12px;
+  width:fit-content;
+  max-width:80%;
+}
+
+.message p{
+  margin-bottom:8px;
+  word-wrap:break-word;
+}
+
+.message a{
+  word-break:break-all;
+}
+
+.pdf-link{
+  color:#60a5fa;
+  text-decoration:none;
+  display:block;
+  margin-top:5px;
+}
+
+.input-area{
+  display:flex;
+  gap:10px;
+  padding:15px;
+  background:#0f172a;
+}
+
+input[type="text"]{
+  flex:1;
+  padding:12px;
+  border:none;
+  border-radius:10px;
+  outline:none;
+  font-size:16px;
+}
+
+input[type="file"]{
+  color:white;
+}
+
+button{
+  background:#2563eb;
+  color:white;
+  border:none;
+  padding:12px 18px;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:bold;
+  transition:0.3s;
+}
+
+button:hover{
+  background:#1d4ed8;
+}
+
+@media(max-width:600px){
+
+  .input-area{
+    flex-direction:column;
+  }
+
+  button{
+    width:100%;
+  }
+
+  .message{
+    max-width:100%;
+  }
+
+}

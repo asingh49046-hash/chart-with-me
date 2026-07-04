@@ -21,8 +21,15 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+
 const messages = document.getElementById("messages");
 const messageInput = document.getElementById("messageInput");
+const sendBtn = document.querySelector(".input-area button");
+
+function showError(error) {
+  console.error(error);
+  alert("Firebase error: " + (error?.message || error));
+}
 
 window.sendMessage = async () => {
   const text = messageInput.value.trim();
@@ -32,16 +39,24 @@ window.sendMessage = async () => {
     return;
   }
 
-  await addDoc(collection(db, "messages"), {
-    text: text,
-    reply: "",
-    adminFileURL: "",
-    adminFileName: "",
-    adminFileType: "",
-    time: Date.now()
-  });
+  try {
+    if (sendBtn) sendBtn.disabled = true;
 
-  messageInput.value = "";
+    await addDoc(collection(db, "messages"), {
+      text: text,
+      reply: "",
+      adminFileURL: "",
+      adminFileName: "",
+      adminFileType: "",
+      time: Date.now()
+    });
+
+    messageInput.value = "";
+  } catch (error) {
+    showError(error);
+  } finally {
+    if (sendBtn) sendBtn.disabled = false;
+  }
 };
 
 messageInput.addEventListener("keydown", (e) => {
@@ -88,7 +103,7 @@ onSnapshot(messagesQuery, (snapshot) => {
   });
 
   messages.scrollTop = messages.scrollHeight;
-});
+}, showError);
 
 const canvas = document.getElementById("matrix");
 const ctx = canvas.getContext("2d");

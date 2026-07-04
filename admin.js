@@ -16,6 +16,10 @@ import {
   getDownloadURL
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 
+if (localStorage.getItem("chartWithMeAdmin") !== "true") {
+  window.location.href = "admin-login.html";
+}
+
 const firebaseConfig = {
   apiKey: "AIzaSyB-3uYxLEgcDYmVTIcaYWXHYkVasKN09OQ",
   authDomain: "chart-with-me-af88f.firebaseapp.com",
@@ -31,6 +35,11 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const storage = getStorage(app);
 const chatList = document.getElementById("chatList");
+
+function showError(error) {
+  console.error(error);
+  alert("Firebase error: " + (error?.message || error));
+}
 
 const messagesQuery = query(collection(db, "messages"), orderBy("time", "asc"));
 
@@ -91,7 +100,7 @@ onSnapshot(messagesQuery, (snapshot) => {
 
     chatList.appendChild(box);
   });
-});
+}, showError);
 
 window.replyMessage = async (id) => {
   const input = document.getElementById(`reply-${id}`);
@@ -102,11 +111,14 @@ window.replyMessage = async (id) => {
     return;
   }
 
-  await updateDoc(doc(db, "messages", id), {
-    reply: replyText
-  });
-
-  input.value = "";
+  try {
+    await updateDoc(doc(db, "messages", id), {
+      reply: replyText
+    });
+    input.value = "";
+  } catch (error) {
+    showError(error);
+  }
 };
 
 window.sendAdminFile = async (id) => {
@@ -118,22 +130,31 @@ window.sendAdminFile = async (id) => {
     return;
   }
 
-  const fileRef = ref(storage, "admin-files/" + Date.now() + "-" + file.name);
-  await uploadBytes(fileRef, file);
-  const fileURL = await getDownloadURL(fileRef);
+  try {
+    const safeFileName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+    const fileRef = ref(storage, "admin-files/" + Date.now() + "-" + safeFileName);
+    await uploadBytes(fileRef, file);
+    const fileURL = await getDownloadURL(fileRef);
 
-  await updateDoc(doc(db, "messages", id), {
-    adminFileURL: fileURL,
-    adminFileName: file.name,
-    adminFileType: file.type
-  });
+    await updateDoc(doc(db, "messages", id), {
+      adminFileURL: fileURL,
+      adminFileName: file.name,
+      adminFileType: file.type || "application/octet-stream"
+    });
 
-  fileInput.value = "";
+    fileInput.value = "";
+  } catch (error) {
+    showError(error);
+  }
 };
 
 window.deleteMessage = async (id) => {
   const confirmDelete = confirm("Delete this chat?");
-  if (confirmDelete) {
+  if (!confirmDelete) return;
+
+  try {
     await deleteDoc(doc(db, "messages", id));
+  } catch (error) {
+    showError(error);
   }
 };

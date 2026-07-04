@@ -1,61 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-  <meta charset="UTF-8">
-
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>chart-with-me</title>
-
-  <link rel="stylesheet" href="style.css">
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chart-With-Me</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
-
-    <canvas id="matrix"></canvas>
+  <canvas id="matrix"></canvas>
 
   <div class="chat-container">
-
-<div class="header">
-
-  <span class="logo-text">
-    ⚡ CHART-WITH-ME TERMINAL
-  </span>
-
-  <a href="admin-login.html" class="admin-tab">
-    ADMIN ACCESS
-  </a>
-
-</div>
-    <div class="messages" id="messages">
-
+    <div class="header">
+      <div class="logo-text">⚡ CHART-WITH-ME TERMINAL</div>
+      <a href="admin-login.html" class="admin-tab">ADMIN ACCESS</a>
     </div>
+
+    <div id="messages" class="messages"></div>
 
     <div class="input-area">
-
-      <input
-        type="text"
-        id="messageInput"
-        placeholder="Type your message..."
-      >
-
-      <input
-        type="file"
-        id="pdfInput"
-        accept=".pdf"
-      >
-
-      <button onclick="sendMessage()">
-        Send
-      </button>
-
+      <input type="text" id="messageInput" placeholder="Type your message..." autocomplete="off" />
+      <button onclick="sendMessage()">Send</button>
     </div>
-
   </div>
 
   <script type="module" src="script.js"></script>
-
 </body>
 </html>

@@ -1,0 +1,8 @@
+*{ margin:0; padding:0; box-sizing:border-box; font-family:Consolas, monospace; }
+body{ min-height:100vh; background:#020617; display:flex; justify-content:center; align-items:center; color:#00ff99; }
+.login-card{ width:90%; max-width:420px; padding:30px; border:1px solid #00ff99; border-radius:20px; background:rgba(0,0,0,0.7); box-shadow:0 0 25px rgba(0,255,153,0.5); text-align:center; }
+h1{ margin-bottom:25px; text-shadow:0 0 18px #00ff99; }
+input{ width:100%; padding:14px; margin-bottom:14px; border-radius:10px; border:1px solid rgba(0,255,153,0.5); background:#000; color:#00ff99; outline:none; }
+button{ width:100%; padding:14px; border-radius:10px; border:1px solid #00ff99; background:#000; color:#00ff99; font-weight:bold; cursor:pointer; }
+button:hover{ background:#00ff99; color:#000; }
+p{ margin-top:18px; opacity:0.8; }
